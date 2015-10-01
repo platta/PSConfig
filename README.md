@@ -16,8 +16,10 @@ Add-DefaultConfigurationSource -InputObject @{
 	Message = "Hello, World!"
 }
 
+# Look up a configuration value.
 $Message = Get-ConfigurationItem -Key "Message"
 
+# Output to the screen.
 Write-Host $Message
 ```
 
