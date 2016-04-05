@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/p22l2ap42xqer6ps?svg=true)](https://ci.appveyor.com/project/AdamPlatt/psconfig)
+
 # PSConfig
 PSConfig is a module to simplify the use of configuration data and configuration files. It supports providing multiple sources of configuration data (in key value pairs) and will check these sources in order when asked to retrieve the value for a particular key.
 
