@@ -84,6 +84,25 @@ Describe Add-FileConfigurationSource {
     }
 }
 
+Describe Add-FileConfigurationSourceMultiline {
+    Clear-ConfigurationSource
+    It "Creates a Configuration Source from a string data file with multiple lines" {
+        Mock -ModuleName PSConfig Get-Content { return "Data = Hello, World!`r`nSecondLine = Some more`r`nThirdLine = This is the Third Line" }
+        Mock -ModuleName PSConfig Test-Path { return $true }
+
+        InModuleScope PSConfig {
+            $Script:ConfigurationSources.Count | Should Be 0
+            Add-FileConfigurationSource -Path "C:\NotARealPath\Test.txt" -Format "StringData"
+            $Script:ConfigurationSources.Count | Should Be 1
+            $Script:ConfigurationSources[0].Name | Should BeExactly "C:\NotARealPath\Test.txt"
+            $Script:ConfigurationSources[0].Type | Should BeExactly "File/StringData"
+            ($Script:ConfigurationSources[0].Data.PSObject.Properties | Measure-Object).Count | Should Be 3
+            $Script:ConfigurationSources[0].Data.Data | Should BeExactly "Hello, World!"
+            $Script:ConfigurationSources[0].Data.SecondLine | Should BeExactly "Some more"
+            $Script:ConfigurationSources[0].Data.ThirdLine | Should BeExactly "This is the Third Line"
+        }
+    }
+}
 
 Describe Clear-ConfigurationSource {
     Clear-ConfigurationSource

@@ -151,7 +151,8 @@ Function Add-FileConfigurationSource {
             switch ($Format) {
                 "StringData" {
                     try {
-                        $Data = Get-Content -Path $Item -Raw -ErrorAction Stop | ConvertFrom-StringData -ErrorAction Stop
+                        $HashData = Get-Content -Path $Item -Raw -ErrorAction Stop | ConvertFrom-StringData -ErrorAction Stop
+                        $Data = New-Object PSObject -Property $HashData
 
                         $NewSource = New-Object -TypeName PSObject -Property @{
                             Type = "File/StringData"
